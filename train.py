@@ -271,14 +271,14 @@ if __name__ == '__main__':
                         L_unsup_1_y = deno_loss(o_u, pseudo_label_y.detach())
                         L_unsup_1_pk = deno_loss(o_u, pseudo_label_pk.detach())
                         L_unsup_1 = L_unsup_1_y + L_unsup_1_pk
-                        loss_1 = L_sup_1 + args.gamma1 * mu * L_unsup_1 #gama1 0.01
+                        loss_1 = L_sup_1 + args.gamma1 * mu * L_unsup_1 
 
                         # loss_2
                         loss_2_y = deno_loss(proto_l_xi[:, :config.num_cls, :, :, :], label_l)
                         loss_2_pk = deno_loss(proto_l_xi[:, config.num_cls:, :, :, :], label_l)
                         loss_2 = loss_2_y + loss_2_pk
 
-                        loss = loss_1 + args.gamma2 * loss_2 #gama2 0.7
+                        loss = loss_1 + args.gamma2 * loss_2 
 
                 # backward passes should not be under autocast.
                 amp_grad_scaler.scale(loss).backward()
@@ -344,4 +344,5 @@ if __name__ == '__main__':
             logging.info(f'\t best eval dice is {best_eval1} in epoch {best_epoch1}')
             if epoch_num - best_epoch1 == config.early_stop_patience:
                 logging.info(f'Early stop.')
+
                 break
